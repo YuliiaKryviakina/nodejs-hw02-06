@@ -40,23 +40,10 @@ const addContact = async (body) => {
   if (validatedData.error) {
     // console.log(validatedData.error);
     // return null;
-    console.log(validatedData);
-    console.log(validatedData.error);
-
-    const error = validatedData.error.details[0].message;
-    const finalError = error.split(" ")[0].replaceAll('"', "");
-    const errorText = error.split(" ").slice(1).join(" ");
-    if (errorText === "must be a string") {
-      return errorText;
-    }
-    console.log(errorText);
-
-    return finalError;
   }
 
   const contacts = await listContacts();
   const newContact = { id: nanoid(), ...{ name, email, phone } };
-
   contacts.push(newContact);
 
   fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
@@ -75,18 +62,10 @@ const updateContact = async (contactId, body) => {
 
   if (validatedData.error) {
     // return undefined;
-    console.log(validatedData);
-    console.log(validatedData.error);
 
-    const error = validatedData.error.details[0].message;
-    const finalError = error.split(" ")[0].replaceAll('"', "");
-    const errorText = error.split(" ").slice(1).join(" ");
-    if (errorText === "must be a string") {
-      return errorText;
-    }
-    console.log(errorText);
-    // console.log(finalError);
-
+    console.log(validatedData.error.details[0].message.split(" ")[0]);
+    const error = validatedData.error.details[0].message.split(" ")[0];
+    const finalError = error.slice(1, error.length - 1);
     return finalError;
   }
 
